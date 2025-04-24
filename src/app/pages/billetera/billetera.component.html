@@ -1,0 +1,43 @@
+<h2>Tu Billetera</h2>
+
+@if (form) {
+  <form [formGroup]="form" (ngSubmit)="agregar()">
+    <input formControlName="nombre" placeholder="Criptomoneda" />
+    <input type="number" formControlName="cantidad" placeholder="Cantidad" />
+    <button type="submit">Agregar</button>
+  </form>
+}
+
+@if (mensaje) {
+  <p>{{ mensaje }}</p>
+}
+
+@if (error) {
+  <p>{{ error }}</p>
+}
+
+<table>
+  <thead>
+    <tr>
+      <th>Nombre</th>
+      <th>Cantidad</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    @for (cripto of criptos; track cripto.nombre) {
+      <tr>
+        <td>{{ cripto.nombre }}</td>
+        <td>{{ cripto.cantidad }}</td>
+        <td>
+          <button (click)="modificar(cripto)">✏️</button>
+          <button (click)="eliminar(cripto.nombre)">🗑️</button>
+        </td>
+      </tr>
+    } @empty {
+      <tr>
+        <td colspan="3">No hay criptomonedas en tu billetera</td>
+      </tr>
+    }
+  </tbody>
+</table>

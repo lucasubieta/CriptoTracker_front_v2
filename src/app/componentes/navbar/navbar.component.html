@@ -1,0 +1,16 @@
+<nav style="display: flex; gap: 1rem; padding: 1rem; background: #eee;">
+    <a routerLink="/">Inicio</a>
+    <a routerLink="/informacion">Información</a>
+  
+    @if (!auth.estaLogueado()) {
+      <a routerLink="/login">Iniciar Sesión</a>
+      <a routerLink="/registro">Registrarse</a>
+    }
+  
+    @if (auth.estaLogueado()) {
+      <a routerLink="/billetera">Billetera</a>
+      <a routerLink="/notificaciones">Notificaciones</a>
+      <a (click)="logout()" style="cursor:pointer">Cerrar sesión</a>
+    }
+  </nav>
+  
