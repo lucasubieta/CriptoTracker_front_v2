@@ -7,5 +7,9 @@ import { Component } from '@angular/core';
   styleUrl: './footer.component.scss'
 })
 export class FooterComponent {
+logout() {
+throw new Error('Method not implemented.');
+}
+auth: any;
 
 }

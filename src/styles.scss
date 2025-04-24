@@ -1,7 +1,8 @@
 :root {
     --bg-color: #121212;
+    --bg-color2: #2c3e5094;
     --card-color: #1E1E1E;
-    --accent-color: #ff9800; /* naranja moderno */
+    --accent-color: #ec9005c2; /* naranja moderno */
     --text-color: #f5f5f5;
     --border-color: #2c2c2c;
   }
@@ -12,5 +13,10 @@
     font-family: 'Segoe UI', sans-serif;
     background-color: var(--bg-color);
     color: var(--text-color);
+    max-width: 1200px;
   }
   
+
+.bg{
+    background-color: var(--bg-color2);
+}

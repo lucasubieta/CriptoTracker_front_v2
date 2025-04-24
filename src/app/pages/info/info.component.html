@@ -1,1 +1,51 @@
-<p>info works!</p>
+<!-- info.component.html -->
+<div class="info-container">
+    @if (loading) {
+      <div class="loading-state">
+        <div class="spinner"></div>
+        <p>Cargando datos del mercado...</p>
+      </div>
+    }
+  
+    @if (error) {
+      <div class="error-state">
+        <i class="fas fa-exclamation-triangle"></i>
+        <p>{{ error }}</p>
+        <button (click)="loadCryptocurrencies()">Reintentar</button>
+      </div>
+    }
+  
+    @if (!loading && !error) {
+      <div class="crypto-header">
+        <h2>Información del Mercado Cripto</h2>
+        <p class="last-update">Actualizado: {{ today | date:'medium' }}</p>
+      </div>
+  
+      <div class="crypto-table">
+        <div class="table-header">
+          <div class="col-name">Criptomoneda</div>
+          <div class="col-price">Precio (USD)</div>
+          <div class="col-change">24h %</div>
+          <div class="col-market-cap">Capitalización</div>
+          <div class="col-volume">Volumen (24h)</div>
+        </div>
+  
+        @for (crypto of cryptocurrencies; track crypto.id) {
+          <div class="crypto-row">
+            <div class="col-name">
+              <span class="crypto-symbol">{{ crypto.symbol }}</span>
+              <span class="crypto-name">{{ crypto.name }}</span>
+            </div>
+            <div class="col-price">${{ crypto.quote.USD.price | number:'1.2-2' }}</div>
+            <div class="col-change" 
+                 [class.positive]="crypto.quote.USD.percent_change_24h >= 0"
+                 [class.negative]="crypto.quote.USD.percent_change_24h < 0">
+              {{ crypto.quote.USD.percent_change_24h >= 0 ? '+' : '' }}{{ crypto.quote.USD.percent_change_24h | number:'1.2-2' }}%
+            </div>
+            <div class="col-market-cap">${{ crypto.quote.USD.market_cap | number:'1.0-0' }}</div>
+            <div class="col-volume">${{ crypto.quote.USD.volume_24h | number:'1.0-0' }}</div>
+          </div>
+        }
+      </div>
+    }
+  </div>

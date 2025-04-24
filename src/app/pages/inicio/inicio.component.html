@@ -1,2 +1,41 @@
-<h1>Bienvenido a CryptoTracker</h1>
-<p>Monitorea tus criptomonedas en tiempo real.</p>
+<div class="home-container">
+    <section class="hero-section">
+      <div class="hero-content">
+        <h1>Monitoreá el mercado crypto en tiempo real</h1>
+        <p class="subtitle">Datos precisos, análisis actualizados y seguimiento de tus inversiones</p>
+        
+      </div>
+      <div class="hero-image">
+        <img src="assets/img/crypto-dashboard.png" alt="Dashboard CriptoTracker">
+      </div>
+    </section>
+  
+    <section class="features-section">
+      <h2>¿Por qué usar CriptoTracker?</h2>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">📊</div>
+          <h3>Datos en tiempo real</h3>
+          <p>Actualizaciones cada 5 minutos de los principales exchanges.</p>
+        </div>
+        
+        <div class="feature-card">
+          <div class="feature-icon">🔔</div>
+          <h3>Alertas personalizadas</h3>
+          <p>Configurá notificaciones cuando tus criptos alcancen cierto valor.</p>
+        </div>
+        
+        <div class="feature-card">
+          <div class="feature-icon">📈</div>
+          <h3>Gráficos interactivos</h3>
+          <p>Analizá el rendimiento con herramientas profesionales.</p>
+        </div>
+      </div>
+    </section>
+  
+    <section class="market-section">
+      <h2>Top Criptomonedas</h2>
+      <app-crypto-ticker></app-crypto-ticker>
+      <a routerLink="/informacion" class="see-more">Ver listado completo →</a>
+    </section>
+  </div>

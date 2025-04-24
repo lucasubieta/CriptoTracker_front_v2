@@ -1,0 +1,104 @@
+/* FOOTER - Estilo coherente con navbar */
+.footer {
+    background-color: var(--bg-color2);
+    color: #ecf0f1;
+    padding: 2rem 1.5rem 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    border-top: var(--accent-color) solid 0.1px;
+    border-radius: 0 0 10px 10px; /* Bordes redondeados solo abajo */
+  }
+  
+  .footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    padding-bottom: 1.5rem;
+  }
+  
+  .footer-col {
+    padding: 0 0.5rem;
+  }
+  
+  .footer-logo span {
+    font-weight: 600;
+    font-size: 1.3rem;
+    color: var(--accent-color);
+  }
+  
+  .footer-text {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: #bdc3c7;
+    margin-top: 0.8rem;
+  }
+  
+  .footer-title {
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+    color: #ecf0f1;
+    font-weight: 500;
+  }
+  
+  .footer-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .footer-links li {
+    margin-bottom: 0.6rem;
+  }
+  
+  .footer-links a {
+    color: #bdc3c7;
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: color 0.2s ease;
+  }
+  
+  .footer-links a:hover {
+    color: var(--accent-color);
+  }
+  
+  .warning-col {
+    border-left: 1px solid rgba(231, 76, 60, 0.3);
+    padding-left: 1.5rem;
+  }
+  
+  .warning-box {
+    background-color: rgba(231, 76, 60, 0.08);
+    padding: 0.8rem;
+    border-radius: 6px;
+  }
+  
+  .warning-box p {
+    font-size: 0.85rem;
+    line-height: 1.5;
+    margin: 0;
+    color: #bdc3c7;
+  }
+  
+  .footer-bottom {
+    border-top: 1px solid rgba(255,255,255,0.1);
+    padding: 1rem;
+    text-align: center;
+    font-size: 0.8rem;
+    color: #bdc3c7;
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .footer-content {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+    
+    .warning-col {
+      border-left: none;
+      border-top: 1px solid rgba(231, 76, 60, 0.3);
+      padding-left: 0;
+      padding-top: 1.5rem;
+    }
+  }

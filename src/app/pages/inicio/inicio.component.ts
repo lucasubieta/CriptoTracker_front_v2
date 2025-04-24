@@ -1,10 +1,14 @@
-import { Component } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { CryptoService } from '../../services/coin.service';
+import { CryptoTickerComponent } from "../../componentes/crypto-ticker/crypto-ticker.component";
 
 @Component({
   selector: 'app-inicio',
-  imports: [],
+  standalone: true,
+  imports: [CommonModule, CryptoTickerComponent],
   templateUrl: './inicio.component.html',
-  styleUrl: './inicio.component.scss'
+  styleUrls: ['./inicio.component.scss']
 })
 export class InicioComponent {
 
