@@ -34,4 +34,9 @@ export class ApiService {
   registrarUsuario(datos: { nombre: string; contraseña: string }): Observable<string> {
     return this.http.post<string>(`${this.base}/usuarios/registrar`, datos, { responseType: 'text' as 'json' });
   }
+
+  getTopCryptos(): Observable<any> {
+    return this.http.get('http://localhost:8080/api/cripto/precios');
+  }
+  
 }

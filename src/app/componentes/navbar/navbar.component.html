@@ -1,10 +1,13 @@
-<nav style="display: flex; gap: 1rem; padding: 1rem; background: #eee;">
+<nav class="navbar">
+    <p class="logo">CriptoTracker</p>
     <a routerLink="/">Inicio</a>
     <a routerLink="/informacion">Información</a>
   
     @if (!auth.estaLogueado()) {
-      <a routerLink="/login">Iniciar Sesión</a>
-      <a routerLink="/registro">Registrarse</a>
+        <div class="divSesion">
+            <a routerLink="/login">Iniciar Sesión</a>
+            <a routerLink="/registro">Registrarse</a>
+        </div>
     }
   
     @if (auth.estaLogueado()) {
@@ -13,4 +16,5 @@
       <a (click)="logout()" style="cursor:pointer">Cerrar sesión</a>
     }
   </nav>
+  <app-crypto-ticker></app-crypto-ticker>
   
