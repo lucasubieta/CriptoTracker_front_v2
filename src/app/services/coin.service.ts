@@ -11,6 +11,12 @@ export class CryptoService {
   constructor(private http: HttpClient) {}
 
   getLatestListings(): Observable<any> {
-    return this.http.get(this.backendUrl);
+    return this.http.get(this.backendUrl, {
+      params: {
+        start: '1',
+        limit: '50',
+        convert: 'EUR'
+      }
+    });
   }
 }
