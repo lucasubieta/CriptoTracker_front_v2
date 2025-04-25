@@ -6,7 +6,7 @@ import { CryptoService } from '../../services/coin.service';
 @Component({
   selector: 'app-crypto-ticker',
   standalone: true,
-  imports: [DecimalPipe, RouterLink],
+  imports: [DecimalPipe],
   templateUrl: './crypto-ticker.component.html',
   styleUrls: ['./crypto-ticker.component.scss']
 })
