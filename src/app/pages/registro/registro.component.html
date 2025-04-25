@@ -1,32 +1,91 @@
 <div class="registro-container">
-    <h2>Registro de Usuario</h2>
-    <form [formGroup]="form" (ngSubmit)="registrar()">
-      <div>
-        <label for="nombre">Nombre de usuario:</label>
-        <input 
-          id="nombre" 
-          formControlName="nombre" 
-          type="text" 
-          required 
-        />
+    <div class="registro-card">
+      <div class="registro-header">
+        <h2>Registro de Usuario</h2>
+        <p>Crea tu cuenta en CriptoTracker</p>
       </div>
-      <div>
-        <label for="contraseña">Contraseña:</label>
-        <input 
-          id="contraseña" 
-          formControlName="contraseña" 
-          type="password" 
-          required 
-        />
+  
+      <form [formGroup]="form" (ngSubmit)="registrar()" class="registro-form">
+        <div class="form-group">
+          <label for="nombre">Nombre de usuario</label>
+          <input 
+            id="nombre"
+            type="text" 
+            formControlName="nombre" 
+            placeholder="Ingresa tu nombre de usuario"
+            class="form-input"
+            [class.invalid]="form.get('nombre')?.invalid && form.get('nombre')?.touched" />
+          @if (form.get('nombre')?.invalid && form.get('nombre')?.touched) {
+            <div class="validation-error">
+              @if (form.get('nombre')?.errors?.['required']) {
+                <span>El nombre de usuario es requerido</span>
+              }
+              @if (form.get('nombre')?.errors?.['minlength']) {
+                <span>Mínimo 3 caracteres</span>
+              }
+            </div>
+          }
+        </div>
+  
+        <div class="form-group">
+          <label for="contraseña">Contraseña</label>
+          <input 
+            id="contraseña"
+            type="password" 
+            formControlName="contraseña" 
+            placeholder="Ingresa tu contraseña"
+            class="form-input"
+            [class.invalid]="form.get('contraseña')?.invalid && form.get('contraseña')?.touched" />
+          @if (form.get('contraseña')?.invalid && form.get('contraseña')?.touched) {
+            <div class="validation-error">
+              @if (form.get('contraseña')?.errors?.['required']) {
+                <span>La contraseña es requerida</span>
+              }
+              @if (form.get('contraseña')?.errors?.['minlength']) {
+                <span>Mínimo 6 caracteres</span>
+              }
+            </div>
+          }
+        </div>
+  
+        <div class="form-group">
+          <label for="confirmarContraseña">Confirmar Contraseña</label>
+          <input 
+            id="confirmarContraseña"
+            type="password" 
+            formControlName="confirmarContraseña" 
+            placeholder="Repite tu contraseña"
+            class="form-input"
+            [class.invalid]="form.get('confirmarContraseña')?.invalid && form.get('confirmarContraseña')?.touched" />
+          @if (form.get('confirmarContraseña')?.invalid && form.get('confirmarContraseña')?.touched) {
+            <div class="validation-error">
+              @if (form.get('confirmarContraseña')?.errors?.['required']) {
+                <span>Debes confirmar la contraseña</span>
+              }
+              @if (form.get('confirmarContraseña')?.errors?.['passwordMismatch']) {
+                <span>Las contraseñas no coinciden</span>
+              }
+            </div>
+          }
+        </div>
+  
+        <button type="submit" class="registro-button" [disabled]="form.invalid">Registrarse</button>
+      </form>
+  
+      @if (mensaje) {
+        <div class="registro-message success">
+          {{ mensaje }}
+        </div>
+      }
+  
+      @if (error) {
+        <div class="registro-message error">
+          {{ error }}
+        </div>
+      }
+  
+      <div class="registro-footer">
+        <p>¿Ya tienes cuenta? <a routerLink="/login" class="login-link">Inicia sesión aquí</a></p>
       </div>
-      <button type="submit">Registrar</button>
-    </form>
-  
-    @if (mensaje) {
-      <p class="mensaje">{{ mensaje }}</p>
-    }
-  
-    @if (error) {
-      <p class="error">{{ error }}</p>
-    }
+    </div>
   </div>

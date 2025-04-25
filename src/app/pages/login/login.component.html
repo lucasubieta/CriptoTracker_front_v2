@@ -1,9 +1,42 @@
-<h2>Iniciar Sesión</h2>
+<div class="login-container">
+  <div class="login-card">
+    <div class="login-header">
+      <h2>Iniciar Sesión</h2>
+      <p>Accede a tu cuenta de CriptoTracker</p>
+    </div>
 
-<form [formGroup]="form" (ngSubmit)="login()">
-  <input formControlName="nombre" placeholder="Usuario" />
-  <input type="password" formControlName="contraseña" placeholder="Contraseña" />
-  <button type="submit">Entrar</button>
-</form>
+    <form [formGroup]="form" (ngSubmit)="login()" class="login-form">
+      <div class="form-group">
+        <label for="nombre">Usuario</label>
+        <input 
+          id="nombre"
+          type="text" 
+          formControlName="nombre" 
+          placeholder="Ingresa tu usuario"
+          class="form-input" />
+      </div>
 
-<p *ngIf="mensaje">{{ mensaje }}</p>
+      <div class="form-group">
+        <label for="contraseña">Contraseña</label>
+        <input 
+          id="contraseña"
+          type="password" 
+          formControlName="contraseña" 
+          placeholder="Ingresa tu contraseña"
+          class="form-input" />
+      </div>
+
+      <button type="submit" class="login-button">Entrar</button>
+    </form>
+
+    @if (mensaje) {
+      <div class="login-message error">
+        {{ mensaje }}
+      </div>
+    }
+
+    <div class="login-footer">
+      <p>¿No tienes cuenta? <a routerLink="/registro" class="register-link">Regístrate aquí</a></p>
+    </div>
+  </div>
+</div>

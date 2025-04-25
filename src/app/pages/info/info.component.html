@@ -1,51 +1,63 @@
-<!-- info.component.html -->
 <div class="info-container">
-    @if (loading) {
-      <div class="loading-state">
-        <div class="spinner"></div>
-        <p>Cargando datos del mercado...</p>
-      </div>
-    }
+    <!-- Buscador -->
+    <div class="search-container">
+      <input type="text" 
+             [(ngModel)]="searchTerm"
+             (input)="filterCryptos()"
+             placeholder="Buscar criptomonedas...">
+      <span class="result-count">{{filteredCryptos.length}} de {{cryptocurrencies.length}}</span>
+    </div>
   
-    @if (error) {
-      <div class="error-state">
-        <i class="fas fa-exclamation-triangle"></i>
-        <p>{{ error }}</p>
-        <button (click)="loadCryptocurrencies()">Reintentar</button>
-      </div>
-    }
-  
+    <!-- Contenido principal -->
     @if (!loading && !error) {
-      <div class="crypto-header">
-        <h2>Información del Mercado Cripto</h2>
-        <p class="last-update">Actualizado: {{ today | date:'medium' }}</p>
-      </div>
-  
-      <div class="crypto-table">
-        <div class="table-header">
-          <div class="col-name">Criptomoneda</div>
-          <div class="col-price">Precio (USD)</div>
-          <div class="col-change">24h %</div>
-          <div class="col-market-cap">Capitalización</div>
-          <div class="col-volume">Volumen (24h)</div>
-        </div>
-  
-        @for (crypto of cryptocurrencies; track crypto.id) {
-          <div class="crypto-row">
-            <div class="col-name">
-              <span class="crypto-symbol">{{ crypto.symbol }}</span>
-              <span class="crypto-name">{{ crypto.name }}</span>
-            </div>
-            <div class="col-price">${{ crypto.quote.USD.price | number:'1.2-2' }}</div>
-            <div class="col-change" 
-                 [class.positive]="crypto.quote.USD.percent_change_24h >= 0"
-                 [class.negative]="crypto.quote.USD.percent_change_24h < 0">
-              {{ crypto.quote.USD.percent_change_24h >= 0 ? '+' : '' }}{{ crypto.quote.USD.percent_change_24h | number:'1.2-2' }}%
-            </div>
-            <div class="col-market-cap">${{ crypto.quote.USD.market_cap | number:'1.0-0' }}</div>
-            <div class="col-volume">${{ crypto.quote.USD.volume_24h | number:'1.0-0' }}</div>
+      <div class="crypto-list">
+        <!-- Tabla con estructura semántica -->
+        <div class="table-wrapper">
+          <!-- Cabecera fija -->
+          <div class="table-header">
+            <div class="header-cell name">Criptomoneda</div>
+            <div class="header-cell price">Precio (USD)</div>
+            <div class="header-cell change">24h %</div>
+            <div class="header-cell marketcap">Market Cap</div>
+            <div class="header-cell volume">Volumen (24h)</div>
+            <div class="header-cell supply">Circulating Supply</div>
           </div>
-        }
+  
+          <!-- Cuerpo de la tabla -->
+          <div class="table-body">
+            @for (crypto of filteredCryptos; track crypto.id) {
+              <div class="table-row">
+                <div class="data-cell name">
+                  <span class="crypto-name">{{ crypto.name }}</span>
+                  <span class="crypto-symbol">{{ crypto.symbol }}</span>
+                </div>
+                <div class="data-cell price">${{ crypto.quote.USD.price | number: '1.2-2' }}</div>
+                <div class="data-cell change" [class.positive]="crypto.quote.USD.percent_change_24h >= 0"
+                     [class.negative]="crypto.quote.USD.percent_change_24h < 0">
+                  {{ crypto.quote.USD.percent_change_24h | number: '1.2-2' }}%
+                </div>
+                <div class="data-cell marketcap">${{ crypto.quote.USD.market_cap | number: '1.0-0' }}</div>
+                <div class="data-cell volume">${{ crypto.quote.USD.volume_24h | number: '1.0-0' }}</div>
+                <div class="data-cell supply">{{ crypto.circulating_supply | number: '1.0-0' }} {{ crypto.symbol }}</div>
+              </div>
+            }
+            @empty {
+              <div class="no-results">
+                No se encontraron resultados para "{{searchTerm}}". <br>
+                ¡Y eso que tenemos 1000! <br>
+              </div>
+            }
+          </div>
+        </div>
       </div>
+    }
+  
+    <!-- Estados de carga -->
+    @if (loading) {
+      <div class="loading">Cargando ...</div>
+    }
+    
+    @if (error) {
+      <div class="error">{{ error }}</div>
     }
   </div>

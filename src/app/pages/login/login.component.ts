@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ApiService } from '../../services/api.service';
 import { AuthService } from '../../services/auth.service';
@@ -10,10 +10,11 @@ import { ReactiveFormsModule } from '@angular/forms';
   standalone: true,
   selector: 'app-login',
   imports: [CommonModule, ReactiveFormsModule],
-  templateUrl: './login.component.html'
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
-  form; // Declaramos la propiedad sin inicializar
+  form: FormGroup; // Declaración correcta del tipo
 
   mensaje = '';
 
@@ -23,21 +24,29 @@ export class LoginComponent {
     private auth: AuthService,
     private router: Router
   ) {
-    // Inicializamos en el constructor
+    // Inicialización correcta en el constructor
     this.form = this.fb.group({
-      nombre: '',
-      contraseña: ''
+      nombre: ['', Validators.required],
+      contraseña: ['', Validators.required]
     });
   }
 
   login() {
-    const { nombre, contraseña } = this.form.value!;
+    if (this.form.invalid) {
+      this.mensaje = 'Por favor completa todos los campos';
+      return;
+    }
+
+    const { nombre, contraseña } = this.form.value;
     this.api.login(nombre!, contraseña!).subscribe({
       next: () => {
         this.auth.login(nombre!);
         this.router.navigate(['/billetera']);
       },
-      error: () => this.mensaje = 'Usuario o contraseña incorrectos'
+      error: () => {
+        this.mensaje = 'Usuario o contraseña incorrectos';
+        this.form.controls['contraseña'].reset();
+      }
     });
   }
 }
