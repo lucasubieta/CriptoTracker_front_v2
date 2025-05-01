@@ -14,7 +14,7 @@ import { ReactiveFormsModule } from '@angular/forms';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
-  form: FormGroup; // Declaración correcta del tipo
+  form: FormGroup; // FormGroup para manejar el formulario de inicio de sesión
 
   mensaje = '';
 
@@ -24,7 +24,7 @@ export class LoginComponent {
     private auth: AuthService,
     private router: Router
   ) {
-    // Inicialización correcta en el constructor
+
     this.form = this.fb.group({
       nombre: ['', Validators.required],
       contraseña: ['', Validators.required]
