@@ -31,7 +31,7 @@ export class ApiService {
     return this.http.delete(`${this.base}/billetera/${usuario}/eliminar/${nombre}`, { responseType: 'text' });
   }
 
-  registrarUsuario(datos: { nombre: string; contraseña: string }): Observable<string> {
+  registrarUsuario(datos: { nombre: string; contraseña: string; correo: string}): Observable<string> {
     return this.http.post<string>(`${this.base}/usuarios/registrar`, datos, { responseType: 'text' as 'json' });
   }
 

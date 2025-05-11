@@ -26,6 +26,28 @@
             </div>
           }
         </div>
+
+          
+        <div class="form-group">
+          <label for="correo">Correo electrónico</label>
+          <input 
+            id="correo"
+            type="email" 
+            formControlName="correo" 
+            placeholder="Ingresa tu correo electrónico"
+            class="form-input"
+            [class.invalid]="form.get('correo')?.invalid && form.get('correo')?.touched" />
+          @if (form.get('correo')?.invalid && form.get('correo')?.touched) {
+            <div class="validation-error">
+              @if (form.get('correo')?.errors?.['required']) {
+                <span>El correo electrónico es requerido</span>
+              }
+              @if (form.get('correo')?.errors?.['email']) {
+                <span>Ingresa un correo electrónico válido</span>
+              }
+            </div>
+          }
+        </div>
   
         <div class="form-group">
           <label for="contraseña">Contraseña</label>
@@ -36,16 +58,16 @@
             placeholder="Ingresa tu contraseña"
             class="form-input"
             [class.invalid]="form.get('contraseña')?.invalid && form.get('contraseña')?.touched" />
-          @if (form.get('contraseña')?.invalid && form.get('contraseña')?.touched) {
-            <div class="validation-error">
-              @if (form.get('contraseña')?.errors?.['required']) {
-                <span>La contraseña es requerida</span>
-              }
-              @if (form.get('contraseña')?.errors?.['minlength']) {
-                <span>Mínimo 6 caracteres</span>
-              }
-            </div>
-          }
+            @if (form.get('contraseña')?.invalid && form.get('contraseña')?.touched) {
+              <div class="validation-error">
+                @if (form.get('contraseña')?.errors?.['required']) {
+                  <span>La contraseña es requerida</span>
+                }
+                @if (form.get('contraseña')?.errors?.['minlength']) {
+                  <span>Mínimo 6 caracteres</span>
+                }
+              </div>
+            }
         </div>
   
         <div class="form-group">
@@ -69,6 +91,7 @@
           }
         </div>
   
+        
         <button type="submit" class="registro-button" [disabled]="form.invalid">Registrarse</button>
       </form>
   

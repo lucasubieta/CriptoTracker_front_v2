@@ -1,91 +1,100 @@
 <div class="billetera-container">
-    <div class="billetera-header">
-      <h2>Tu Billetera Cripto</h2>
-      <p>Administra tus criptomonedas</p>
-    </div>
-  
-    <!-- Formulario para agregar criptomonedas -->
-    @if (form) {
-      <form [formGroup]="form" (ngSubmit)="agregar()" class="billetera-form">
-        <div class="form-row">
-          <div class="form-group">
-            <input 
-              formControlName="nombre" 
-              placeholder="BTC, ADA, ETH, [...]" 
-              class="form-input"
-              [class.invalid]="form.get('nombre')?.invalid && form.get('nombre')?.touched" />
-            @if (form.get('nombre')?.invalid && form.get('nombre')?.touched) {
-              <div class="validation-error">Nombre requerido</div>
-            }
-          </div>
-          
-          <div class="form-group">
-            <input 
-              type="number" 
-              formControlName="cantidad" 
-              placeholder="Cantidad" 
-              min="0"
-              step="0.000001"
-              class="form-input"
-              [class.invalid]="form.get('cantidad')?.invalid && form.get('cantidad')?.touched" />
-            @if (form.get('cantidad')?.invalid && form.get('cantidad')?.touched) {
-              <div class="validation-error">Mínimo 0.000001</div>
-            }
-          </div>
-          
-          <button type="submit" class="add-button" [disabled]="form.invalid">
-            <i class="fas fa-plus"></i> Agregar
-          </button>
-        </div>
-      </form>
-    }
-  
-    <!-- Mensajes de estado -->
-    @if (mensaje) {
-      <div class="billetera-message success">
-        {{ mensaje }}
-      </div>
-    }
-  
-    @if (error) {
-      <div class="billetera-message error">
-        {{ error }}
-      </div>
-    }
-  
-    <!-- Tabla de criptomonedas -->
-    <div class="cripto-table">
-      @if (criptos.length > 0) {
-        <div class="table-header">
-          <div class="header-cell name">Criptomoneda</div>
-          <div class="header-cell amount">Cantidad</div>
-          <div class="header-cell actions">Acciones</div>
-        </div>
-  
-        <div class="table-body">
-          @for (cripto of criptos; track cripto.nombre) {
-            <div class="table-row">
-              <div class="data-cell name">{{ cripto.nombre }}</div>
-              <div class="data-cell amount">{{ cripto.cantidad | number:'1.6-6' }}</div>
-              <div class="data-cell actions">
-                <button (click)="modificar(cripto)" class="action-button edit" title="Modificar">
-                  <i class="fas fa-edit"></i> <span class="action-text">Editar</span>
-                </button>
-                <button (click)="eliminar(cripto.nombre)" class="action-button delete" title="Eliminar">
-                  <i class="fas fa-trash"></i> <span class="action-text">Eliminar</span>
-                </button>
-              </div>
-            </div>
+  <div class="billetera-header">
+    <h2>Tu Billetera Cripto</h2>
+    <p>Administra tus criptomonedas.</p>
+<p>Ingresa tus criptos para obtener el valor actual en USD. Podrás ingresar los simbolos de las 1000 criptomonedas habilitadas en CryptoTracker, para conocerlas puede hacer <a routerLink ="/informacion" class ="router">click aqui</a>.</p>
+  </div>
+
+  <!-- Formulario para agregar criptomonedas -->
+  @if (form) {
+    <form [formGroup]="form" (ngSubmit)="agregar()" class="billetera-form">
+      <div class="form-row">
+        <div class="form-group">
+          <input 
+            formControlName="nombre" 
+            placeholder="BTC, ADA, ETH, [...]" 
+            class="form-input"
+            [class.invalid]="(form.get('nombre')?.invalid && form.get('nombre')?.touched) || form.get('nombre')?.errors?.['invalidCrypto']" />
+          @if (form.get('nombre')?.invalid && form.get('nombre')?.touched) {
+            <div class="validation-error">Nombre requerido</div>
+          }
+          @if (form.get('nombre')?.errors?.['invalidCrypto']) {
+            <div class="validation-error">Criptomoneda no disponible</div>
           }
         </div>
-      } @else {
-        <div class="empty-wallet">
-          <i class="fas fa-wallet"></i>
-          <p>No hay criptomonedas en tu billetera</p>
-          <button routerLink="/informacion" class="discover-button">
-            <i class="fas fa-search"></i> Descubrir criptomonedas
-          </button>
+
+        <div class="form-group">
+          <input 
+            type="number" 
+            formControlName="cantidad" 
+            placeholder="Cantidad" 
+            min="0"
+            step="0.000001"
+            class="form-input"
+            [class.invalid]="form.get('cantidad')?.invalid && form.get('cantidad')?.touched" />
+          @if (form.get('cantidad')?.invalid && form.get('cantidad')?.touched) {
+            <div class="validation-error">Mínimo 0.000001</div>
+          }
         </div>
-      }
+        
+        <button type="submit" class="add-button" [disabled]="form.invalid">
+          <fa-icon [icon]="faPlus"></fa-icon> Agregar
+        </button>
+      </div>
+    </form>
+  }
+
+  <!-- Mensajes de estado -->
+  @if (mensaje) {
+    <div class="billetera-message success">
+      {{ mensaje }}
     </div>
+  }
+
+  @if (error) {
+    <div class="billetera-message error">
+      {{ error }}
+    </div>
+  }
+
+  <!-- Tabla de criptomonedas -->
+  @if (valorBilletera$ | async; as valor) {
+    <div class="wallet-value">
+      Billetera valorada en USD {{ valor | currency:'USD':'symbol':'1.2-2' }}
+    </div>
+  }
+  <div class="cripto-table">
+    @if (criptos.length > 0) {
+      <div class="table-header">
+        <div class="header-cell name">Criptomoneda</div>
+        <div class="header-cell amount">Cantidad</div>
+        <div class="header-cell actions">Acciones</div>
+      </div>
+
+      <div class="table-body">
+        @for (cripto of criptos; track cripto.nombre) {
+          <div class="table-row">
+            <div class="data-cell name">{{ cripto.nombre }}</div>
+            <div class="data-cell amount">{{ cripto.cantidad | number:'1.6-6' }}</div>
+            <div class="data-cell actions">
+              <button (click)="modificar(cripto)" class="action-button edit" title="Modificar">
+                <fa-icon [icon]="faEdit"></fa-icon> <span class="action-text">Editar</span>
+              </button>
+              <button (click)="eliminar(cripto.nombre)" class="action-button delete" title="Eliminar">
+                <fa-icon [icon]="faTrash"></fa-icon> <span class="action-text">Eliminar</span>
+              </button>
+            </div>
+          </div>
+        }
+      </div>
+    } @else {
+      <div class="empty-wallet">
+        <fa-icon [icon]="faWallet"></fa-icon>
+        <p>No hay criptomonedas en tu billetera</p>
+        <button routerLink="/informacion" class="discover-button">
+          <fa-icon [icon]="faSearch"></fa-icon> Descubrir criptomonedas
+        </button>
+      </div>
+    }
   </div>
+</div>

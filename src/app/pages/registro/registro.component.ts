@@ -2,12 +2,12 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, AbstractControl, ReactiveFormsModule } from '@angular/forms';
 import { ApiService } from '../../services/api.service';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-registro',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './registro.component.html',
   styleUrls: ['./registro.component.scss']
 })
@@ -16,15 +16,19 @@ export class RegistroComponent {
   mensaje = '';
   error = '';
 
-  constructor(private fb: FormBuilder, private api: ApiService, private router: Router) {
+  constructor(
+    private fb: FormBuilder, 
+    private api: ApiService, 
+    private router: Router
+  ) {
     this.form = this.fb.group({
       nombre: ['', [Validators.required, Validators.minLength(3)]],
+      correo: ['', [Validators.required, Validators.email]],
       contraseña: ['', [Validators.required, Validators.minLength(6)]],
       confirmarContraseña: ['', Validators.required]
     }, { validator: this.passwordMatchValidator });
   }
 
-  // Validador personalizado para comparar contraseñas
   passwordMatchValidator(control: AbstractControl) {
     const password = control.get('contraseña')?.value;
     const confirmPassword = control.get('confirmarContraseña')?.value;
@@ -32,9 +36,8 @@ export class RegistroComponent {
     if (password !== confirmPassword) {
       control.get('confirmarContraseña')?.setErrors({ passwordMismatch: true });
       return { passwordMismatch: true };
-    } else {
-      return null;
     }
+    return null;
   }
 
   registrar() {
@@ -43,15 +46,14 @@ export class RegistroComponent {
       return;
     }
 
-    const { nombre, contraseña } = this.form.value;
-    this.api.registrarUsuario({ nombre, contraseña }).subscribe({
+    const { nombre, contraseña, correo } = this.form.value;
+    
+    this.api.registrarUsuario({ nombre, contraseña, correo }).subscribe({
       next: (msg) => {
         this.mensaje = msg;
         this.error = '';
         this.form.reset();
-        setTimeout(() => {
-          this.router.navigate(['/login']);
-        }, 1500);
+        setTimeout(() => this.router.navigate(['/login']), 1500);
       },
       error: (err) => {
         this.error = err.error || 'Error al registrar usuario. Por favor intenta con otro nombre de usuario.';
