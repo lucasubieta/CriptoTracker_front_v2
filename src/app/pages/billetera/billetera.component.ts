@@ -76,7 +76,7 @@ export class BilleteraComponent implements OnInit {
 
   cargarBilletera() {
     const user = this.auth.usuarioActual!;
-    this.api.obtenerBilletera(user).subscribe({
+    this.api.obtenerBilletera(user.nombre).subscribe({
       next: (data) => {
         this.criptos = data;
         // Recalcular el valor cuando se actualiza la billetera
@@ -124,7 +124,7 @@ export class BilleteraComponent implements OnInit {
       return;
     }
     
-    this.api.agregarCripto(user, cripto).subscribe({
+    this.api.agregarCripto(user.nombre, cripto).subscribe({
       next: (msg) => {
         this.mensaje = msg;
         this.error = '';
@@ -145,7 +145,7 @@ export class BilleteraComponent implements OnInit {
     const user = this.auth.usuarioActual!;
     const criptoActualizada = { nombre: cripto.nombre, cantidad: Number(nuevaCantidad) };
 
-    this.api.modificarCripto(user, criptoActualizada).subscribe({
+    this.api.modificarCripto(user.nombre, criptoActualizada).subscribe({
       next: (msg) => {
         this.mensaje = msg;
         this.error = '';
@@ -162,7 +162,7 @@ export class BilleteraComponent implements OnInit {
     if (!confirm(`¿Estás seguro de eliminar ${nombre} de tu billetera?`)) return;
 
     const user = this.auth.usuarioActual!;
-    this.api.eliminarCripto(user, nombre).subscribe({
+    this.api.eliminarCripto(user.nombre, nombre).subscribe({
       next: (msg) => {
         this.mensaje = msg;
         this.error = '';

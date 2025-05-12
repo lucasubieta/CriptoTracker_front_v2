@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { iCripto } from '../interfaces/iCripto';
+import { iUsuario } from '../interfaces/iUsuario';
 
 @Injectable({
   providedIn: 'root'
@@ -11,9 +12,10 @@ export class ApiService {
 
   constructor(private http: HttpClient) {}
 
-  login(nombre: string, contraseña: string): Observable<string> {
-    return this.http.post(`${this.base}/login`, { nombre, contraseña }, { responseType: 'text' });
+  login(identificador: string, contraseña: string): Observable<iUsuario> {
+    return this.http.post<iUsuario>(`${this.base}/login`, { identificador, contraseña });
   }
+  
 
   obtenerBilletera(usuario: string): Observable<iCripto[]> {
     return this.http.get<iCripto[]>(`${this.base}/billetera/${usuario}`);
@@ -36,7 +38,7 @@ export class ApiService {
   }
 
   getTopCryptos(): Observable<any> {
-    return this.http.get('http://localhost:8080/api/cripto/precios');
+    return this.http.get('http://localhost:8081/api/cripto/precios');
   }
   
 }

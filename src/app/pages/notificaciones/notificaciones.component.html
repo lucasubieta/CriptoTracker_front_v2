@@ -1,57 +1,27 @@
-<div class="notification-container">
-  <h2>Configurar Notificaciones</h2>
-  
-  <div class="wallet-value-info">
-    <p>Valor actual de tu billetera: {{ currentWalletValue | number:'1.2-2' }} USD</p>
+<h1>Configurador de notificacion</h1>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-6">
+        <h2>Configuración de Notificaciones</h2>
+        <form [formGroup]="Notificacionesform" (submit)="handleSubmit()">
+            <fieldset>
+                <label for="tipo">Frecuencia de notificaciones</label>
+                <select id="tipo" formControlName="tipo">
+                    <option value="diario">Diario</option>
+                    <option value="semanal">Semanal</option>
+                    <option value="mensual">Mensual</option>
+                </select>        
+            </fieldset>
+            <fieldset>
+                <label for="umbral">Configurar umbral (opcional)</label>
+                <input type="number" formControlName="umbral">
+            </fieldset>
+            <fieldset>
+                <label for="mensajePersonalizado">Comentario para añadir en el correo</label>
+                <input type="text" formControlName="mensajePersonalizado">
+            </fieldset>
+            <button>Crear notificación</button>
+        </form>
+    </div>
   </div>
-
-  <form [formGroup]="notificationForm" class="notification-form">
-    <input type="hidden" formControlName="nombreUsuario">
-    
-    <div class="form-group">
-      <label for="frecuencia">Frecuencia</label>
-      <select id="frecuencia" formControlName="frecuencia" class="form-control">
-        <option *ngFor="let freq of frecuenciaOptions" [value]="freq">
-          {{ freq === 'DIARIO' ? 'Diario' : freq === 'SEMANAL' ? 'Semanal' : 'Mensual' }}
-        </option>
-      </select>
-    </div>
-
-    <div class="form-group">
-      <label for="email">Email para notificaciones</label>
-      <input id="email" type="email" formControlName="email" class="form-control">
-    </div>
-
-    <div class="form-group">
-      <label for="umbral">Umbral de valor (USD)</label>
-      <input id="umbral" type="number" formControlName="umbral" min="0" step="0.01" class="form-control">
-    </div>
-
-    <div class="form-group">
-      <label for="mensaje">Mensaje personalizado</label>
-      <textarea id="mensaje" formControlName="mensaje" rows="3" class="form-control"></textarea>
-    </div>
-
-    <div class="button-group">
-      <button type="button" (click)="saveConfig()" class="submit-button" [disabled]="notificationForm.invalid">
-        Guardar Configuración
-      </button>
-      
-      <button type="button" (click)="sendTest()" class="test-button" [disabled]="notificationForm.invalid">
-        Enviar correo de prueba
-      </button>
-    </div>
-  </form>
-
-  @if (message) {
-    <div class="alert success">
-      {{ message }}
-    </div>
-  }
-
-  @if (error) {
-    <div class="alert error">
-      {{ error }}
-    </div>
-  }
-</div>

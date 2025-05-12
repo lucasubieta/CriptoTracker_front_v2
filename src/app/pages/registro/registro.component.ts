@@ -11,6 +11,7 @@ import { Router, RouterLink } from '@angular/router';
   templateUrl: './registro.component.html',
   styleUrls: ['./registro.component.scss']
 })
+
 export class RegistroComponent {
   form: FormGroup;
   mensaje = '';
