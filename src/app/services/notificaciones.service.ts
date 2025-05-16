@@ -7,7 +7,7 @@ import { catchError } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class NotificationService {
-  private apiUrl = 'http://145.239.196.138:8080/api/notificaciones';
+  private apiUrl = '/api/notificaciones';
 
   constructor(private http: HttpClient) { }
 

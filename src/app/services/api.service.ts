@@ -8,7 +8,8 @@ import { iUsuario } from '../interfaces/iUsuario';
   providedIn: 'root'
 })
 export class ApiService {
-  private base = 'http://145.239.196.138:8080/api';
+  //private base = 'http://145.239.196.138:8080/api';
+  private base = '/api';
 
   constructor(private http: HttpClient) {}
 
@@ -38,7 +39,7 @@ export class ApiService {
   }
 
   getTopCryptos(): Observable<any> {
-    return this.http.get('http://145.239.196.138:8081/api/cripto/precios');
+    return this.http.get('/api/cripto/precios');
   }
   
 }
