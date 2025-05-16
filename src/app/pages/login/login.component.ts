@@ -5,6 +5,7 @@ import { ApiService } from '../../services/api.service';
 import { AuthService } from '../../services/auth.service';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
+import { iUsuario } from '../../interfaces/iUsuario';
 
 @Component({
   standalone: true,
@@ -36,11 +37,11 @@ export class LoginComponent {
       this.mensaje = 'Por favor completa todos los campos';
       return;
     }
-
+  
     const { nombre, contraseña } = this.form.value;
     this.api.login(nombre!, contraseña!).subscribe({
-      next: () => {
-        this.auth.login(nombre!);
+      next: (usuario: iUsuario) => { // <--- Recibir el objeto usuario completo
+        this.auth.login(usuario); // <--- Pasar el objeto completo al AuthService
         this.router.navigate(['/billetera']);
       },
       error: () => {
@@ -48,5 +49,4 @@ export class LoginComponent {
         this.form.controls['contraseña'].reset();
       }
     });
-  }
-}
+  }}

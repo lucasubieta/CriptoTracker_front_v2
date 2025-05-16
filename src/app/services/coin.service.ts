@@ -8,7 +8,7 @@ import { tap, map } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class CryptoService {
-  private backendUrl = 'http://localhost:8080/api/cripto/precios';
+  private backendUrl = 'http://145.239.196.138:8080/api/cripto/precios';
   private availableCryptos: string[] = [];
 
   constructor(private http: HttpClient) {}

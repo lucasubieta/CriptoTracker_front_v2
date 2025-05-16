@@ -41,6 +41,7 @@ export class BilleteraComponent implements OnInit {
     private fb: FormBuilder,
     private cryptoService: CryptoService,
     private walletState: WalletStateService
+    
   ) {
     this.form = this.fb.group({
       nombre: ['', [Validators.required, this.validateCrypto.bind(this)]],
@@ -75,8 +76,8 @@ export class BilleteraComponent implements OnInit {
   }
 
   cargarBilletera() {
-    const user = this.auth.usuarioActual!;
-    this.api.obtenerBilletera(user.nombre).subscribe({
+    const user = this.auth.usuarioActual!.nombre;
+    this.api.obtenerBilletera(user).subscribe({
       next: (data) => {
         this.criptos = data;
         // Recalcular el valor cuando se actualiza la billetera
@@ -116,7 +117,7 @@ export class BilleteraComponent implements OnInit {
       return;
     }
 
-    const user = this.auth.usuarioActual!;
+    const user = this.auth.usuarioActual!.nombre;
     const cripto = this.form.value as iCripto;
     
     if (!this.cryptoService.isCryptoAvailable(cripto.nombre.toUpperCase())) {
@@ -124,7 +125,7 @@ export class BilleteraComponent implements OnInit {
       return;
     }
     
-    this.api.agregarCripto(user.nombre, cripto).subscribe({
+    this.api.agregarCripto(user, cripto).subscribe({
       next: (msg) => {
         this.mensaje = msg;
         this.error = '';
@@ -142,10 +143,10 @@ export class BilleteraComponent implements OnInit {
     const nuevaCantidad = prompt(`Modificar cantidad de ${cripto.nombre}`, cripto.cantidad.toString());
     if (nuevaCantidad === null || isNaN(Number(nuevaCantidad))) return;
 
-    const user = this.auth.usuarioActual!;
+    const user = this.auth.usuarioActual!.nombre;
     const criptoActualizada = { nombre: cripto.nombre, cantidad: Number(nuevaCantidad) };
 
-    this.api.modificarCripto(user.nombre, criptoActualizada).subscribe({
+    this.api.modificarCripto(user, criptoActualizada).subscribe({
       next: (msg) => {
         this.mensaje = msg;
         this.error = '';
@@ -161,8 +162,8 @@ export class BilleteraComponent implements OnInit {
   eliminar(nombre: string) {
     if (!confirm(`¿Estás seguro de eliminar ${nombre} de tu billetera?`)) return;
 
-    const user = this.auth.usuarioActual!;
-    this.api.eliminarCripto(user.nombre, nombre).subscribe({
+    const user = this.auth.usuarioActual!.nombre;
+    this.api.eliminarCripto(user, nombre).subscribe({
       next: (msg) => {
         this.mensaje = msg;
         this.error = '';
